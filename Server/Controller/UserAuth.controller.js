@@ -4,15 +4,16 @@ import bcrypt from 'bcrypt'
 import "dotenv/config"
 export const Registration =async(req,res)=>{
 ``
-     const {fullname,email,password,profileimage} =req.body;
+     const {fullname,email,password,profileimage,role} =req.body;
      try {
+      if(!fullname || !email || !password || !role){
+               return res.status(400).json({success:false,message:"All Field Are requered"})
+          }
           if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
                return res.status(400).json({ message: "Invalid email format" });
              }
 
-          if(!fullname || !email || !password){
-               return res.status(400).json({success:false,message:"all Field is requered"})
-          }
+          
           
      const User=await UserData.findOne({email})
      if(User){
